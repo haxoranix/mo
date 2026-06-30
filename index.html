@@ -1,0 +1,1444 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Next Thing I Knew connects arts organizations with corporate patrons through meaningful cultural partnerships.">
+  <title>Next Thing I Knew</title>
+  <style>
+:root {
+  --ivory: #faf8f3;
+  --cream: #f3eddf;
+  --black: #161512;
+  --gold: #c6a15b;
+  --gold-dark: #9c7635;
+  --lavender: #e8e1f0;
+  --lavender-deep: #c9bdd8;
+  --line: rgba(22, 21, 18, 0.18);
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --display: "Arial Narrow", "Helvetica Neue Condensed", Impact, sans-serif;
+  --header-height: 76px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--black);
+  background: var(--ivory);
+  font-family: var(--serif);
+  line-height: 1.65;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.reading-progress {
+  position: fixed;
+  z-index: 220;
+  inset: 0 0 auto;
+  height: 3px;
+  background: transparent;
+}
+
+.reading-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--gold);
+}
+
+.site-header {
+  position: fixed;
+  z-index: 200;
+  inset: 0 0 auto;
+  min-height: var(--header-height);
+  padding: 16px clamp(18px, 4vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 220ms ease, border 220ms ease, padding 220ms ease;
+}
+
+.site-header.scrolled {
+  background: rgba(250, 248, 243, 0.94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+}
+
+.wordmark-mark {
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 39px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.wordmark-copy {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.3vw, 34px);
+}
+
+.site-nav a {
+  position: relative;
+  text-decoration: none;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -7px;
+  height: 1px;
+  background: var(--gold);
+  transition: right 180ms ease;
+}
+
+.site-nav a:hover::after,
+.site-nav a.active::after {
+  right: 0;
+}
+
+.menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.menu-toggle span:not(.sr-only) {
+  display: block;
+  width: 24px;
+  height: 1px;
+  margin: 7px auto;
+  background: currentColor;
+  transition: transform 180ms ease;
+}
+
+.chapter-rail {
+  position: fixed;
+  z-index: 120;
+  right: 22px;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  transform: translateY(-50%);
+}
+
+.chapter-rail a {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: rgba(22, 21, 18, 0.45);
+  text-decoration: none;
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.chapter-rail a::before {
+  content: attr(data-label);
+  position: absolute;
+  right: 36px;
+  padding: 5px 8px;
+  opacity: 0;
+  pointer-events: none;
+  background: var(--black);
+  color: var(--ivory);
+  font-size: 0.58rem;
+  white-space: nowrap;
+  transform: translateX(5px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.chapter-rail a:hover::before {
+  opacity: 1;
+  transform: none;
+}
+
+.chapter-rail a.active {
+  color: var(--black);
+  border-color: var(--gold);
+  background: var(--ivory);
+}
+
+.story-section {
+  position: relative;
+  min-height: 100vh;
+  padding: clamp(104px, 12vw, 170px) clamp(22px, 7vw, 110px);
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+.paper-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.22;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 18% 22%, rgba(0,0,0,0.045) 0 0.7px, transparent 0.8px),
+    radial-gradient(circle at 73% 62%, rgba(0,0,0,0.035) 0 0.8px, transparent 0.9px);
+  background-size: 13px 13px, 17px 17px;
+  mix-blend-mode: multiply;
+}
+
+.chapter-opening {
+  position: relative;
+  z-index: 2;
+  max-width: 1320px;
+  margin: 0 auto clamp(58px, 8vw, 110px);
+}
+
+.chapter-opening.narrow {
+  max-width: 1080px;
+}
+
+.chapter-opening.centered {
+  text-align: center;
+}
+
+.story-refrain {
+  margin: 0 0 22px;
+  font-family: var(--sans);
+  font-size: clamp(0.68rem, 0.8vw, 0.82rem);
+  font-weight: 850;
+  letter-spacing: 0.24em;
+}
+
+.story-refrain::before {
+  content: "";
+  display: inline-block;
+  width: 54px;
+  height: 1px;
+  margin: 0 14px 4px 0;
+  background: var(--gold);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+h1 {
+  max-width: 12ch;
+  font-size: clamp(4rem, 9.4vw, 10.8rem);
+  line-height: 0.88;
+}
+
+h2 {
+  max-width: 13ch;
+  font-size: clamp(3.8rem, 8.2vw, 9.2rem);
+  line-height: 0.9;
+}
+
+h3 {
+  max-width: 11ch;
+  font-size: clamp(2.9rem, 5.5vw, 6rem);
+  line-height: 0.94;
+}
+
+.lead {
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  line-height: 1.45;
+}
+
+.hero-section {
+  min-height: 116vh;
+  padding-top: calc(var(--header-height) + clamp(70px, 8vw, 120px));
+}
+
+.hero-stage {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.62fr) minmax(420px, 1.38fr);
+  align-items: end;
+  gap: clamp(30px, 7vw, 110px);
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+.hero-copy {
+  padding-bottom: 10vh;
+}
+
+.hero-copy p {
+  max-width: 48ch;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 24px;
+  border: 1px solid var(--black);
+  background: var(--black);
+  color: var(--ivory);
+  text-decoration: none;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--black);
+}
+
+.button-ghost {
+  background: transparent;
+  color: var(--black);
+}
+
+.button-gold {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--black);
+}
+
+.storybook-illustration {
+  margin: 0;
+}
+
+.storybook-illustration figcaption {
+  margin-top: 14px;
+  font-size: 0.8rem;
+  font-style: italic;
+  text-align: center;
+  color: rgba(22, 21, 18, 0.65);
+}
+
+.hero-illustration {
+  align-self: end;
+}
+
+.continue-link {
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+.continue-link span {
+  font-size: 1rem;
+  animation: floatDown 1.8s ease-in-out infinite;
+}
+
+@keyframes floatDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+.chapter-number {
+  position: absolute;
+  top: 80px;
+  right: 6vw;
+  font-size: clamp(9rem, 20vw, 24rem);
+  line-height: 1;
+  color: rgba(198, 161, 91, 0.12);
+  font-style: italic;
+  user-select: none;
+}
+
+.quote-section {
+  background: var(--cream);
+}
+
+.quote-layout {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.82fr) minmax(0, 1.18fr);
+  align-items: center;
+  gap: clamp(55px, 9vw, 140px);
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.portrait-card {
+  position: relative;
+  padding: 18px;
+  background: var(--ivory);
+  box-shadow: 0 30px 80px rgba(22, 21, 18, 0.13);
+}
+
+.tilt-left {
+  transform: rotate(-2.5deg);
+}
+
+.tilt-right {
+  transform: rotate(1.8deg);
+}
+
+.tape {
+  position: absolute;
+  z-index: 2;
+  width: 112px;
+  height: 31px;
+  background: rgba(232, 225, 240, 0.85);
+  box-shadow: 0 1px 0 rgba(22,21,18,0.08);
+}
+
+.tape-one {
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%) rotate(3deg);
+}
+
+.quote-copy {
+  max-width: 680px;
+}
+
+.quote-copy p {
+  margin: 0 0 15px;
+  font-size: clamp(1.35rem, 2.4vw, 2.3rem);
+  line-height: 1.28;
+}
+
+.quote-copy .dropcap::first-letter {
+  float: left;
+  margin: 0.08em 0.08em 0 0;
+  color: var(--gold);
+  font-size: 5.2em;
+  line-height: 0.72;
+}
+
+.quote-copy .closing-line {
+  margin-top: 35px;
+  font-style: italic;
+}
+
+.split-chapter {
+  background: var(--ivory);
+}
+
+.lavender-wash {
+  background:
+    linear-gradient(rgba(232, 225, 240, 0.38), rgba(232, 225, 240, 0.38)),
+    var(--ivory);
+}
+
+.split-layout {
+  display: grid;
+  grid-template-columns: minmax(400px, 1.1fr) minmax(300px, 0.9fr);
+  align-items: center;
+  gap: clamp(60px, 9vw, 140px);
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.split-layout.reverse .storybook-illustration {
+  order: 2;
+}
+
+.split-layout.reverse .chapter-copy {
+  order: 1;
+}
+
+.landscape-card {
+  padding: clamp(12px, 2vw, 22px);
+  background: var(--cream);
+  border: 1px solid rgba(22,21,18,0.08);
+  box-shadow: 0 28px 90px rgba(22, 21, 18, 0.09);
+}
+
+.chapter-copy {
+  max-width: 600px;
+}
+
+.section-label {
+  margin: 0 0 18px;
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 850;
+  letter-spacing: 0.18em;
+}
+
+.chapter-copy h3 {
+  margin-bottom: 28px;
+}
+
+.chapter-copy p {
+  font-size: clamp(1.05rem, 1.45vw, 1.28rem);
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 18px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--gold);
+  text-decoration: none;
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.text-link span {
+  transition: transform 160ms ease;
+}
+
+.text-link:hover span {
+  transform: translateX(5px);
+}
+
+.founder-section {
+  background: var(--black);
+  color: var(--ivory);
+}
+
+.founder-section .story-refrain::before {
+  background: var(--gold);
+}
+
+.founder-layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 0.88fr) minmax(0, 1.12fr);
+  align-items: start;
+  gap: clamp(55px, 9vw, 140px);
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.founder-portrait {
+  position: sticky;
+  top: 110px;
+  padding: 20px;
+  background: #23211d;
+  border: 1px solid rgba(250,248,243,0.14);
+}
+
+.founder-portrait figcaption {
+  color: rgba(250,248,243,0.62);
+}
+
+.moon {
+  position: absolute;
+  z-index: 0;
+  top: 48px;
+  right: 44px;
+  width: 110px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--lavender);
+  opacity: 0.9;
+}
+
+.founder-portrait svg {
+  position: relative;
+  z-index: 1;
+}
+
+.founder-copy {
+  max-width: 690px;
+}
+
+.founder-copy p {
+  font-size: clamp(1.05rem, 1.5vw, 1.28rem);
+  color: rgba(250,248,243,0.86);
+}
+
+.founder-copy blockquote {
+  margin: 48px 0;
+  padding: 30px 0 30px 28px;
+  border-left: 2px solid var(--gold);
+  font-size: clamp(2rem, 4vw, 4.2rem);
+  line-height: 1.05;
+  font-style: italic;
+}
+
+.founder-copy blockquote span {
+  display: block;
+  margin-bottom: 16px;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.founder-copy .cadence {
+  color: var(--ivory);
+  font-size: clamp(1.7rem, 3.2vw, 3.2rem);
+  line-height: 1.25;
+}
+
+.signature {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.signature span {
+  font-size: 2.9rem;
+  font-style: italic;
+}
+
+.signature small {
+  margin-top: 4px;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.finale-section {
+  min-height: 110vh;
+  display: grid;
+  place-items: center;
+  background: var(--ivory);
+  text-align: center;
+}
+
+.stars {
+  position: absolute;
+  inset: 8% 8% auto;
+  display: flex;
+  justify-content: space-between;
+  color: var(--gold);
+  font-size: clamp(1rem, 2vw, 2rem);
+}
+
+.stars span:nth-child(even) {
+  color: var(--lavender-deep);
+  transform: translateY(60px);
+}
+
+.finale-section .chapter-opening {
+  margin-bottom: 34px;
+}
+
+.finale-copy {
+  max-width: 760px;
+  margin: 0 auto 48px;
+}
+
+.finale-copy p {
+  font-size: clamp(1.08rem, 1.7vw, 1.4rem);
+}
+
+.contact-form {
+  width: min(720px, 100%);
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid var(--black);
+  background: rgba(243, 237, 223, 0.72);
+  text-align: left;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.contact-form label {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(22,21,18,0.35);
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: var(--black);
+  padding: 12px 4px;
+  font-family: var(--serif);
+  font-size: 1rem;
+  text-transform: none;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: var(--gold-dark);
+}
+
+.contact-form .button {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.form-note {
+  min-height: 24px;
+  margin: 13px 0 0;
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.site-footer {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 0.7fr;
+  gap: 40px;
+  padding: 70px clamp(22px, 7vw, 110px) 28px;
+  background: var(--cream);
+}
+
+.footer-tagline {
+  max-width: 19ch;
+  margin-top: 26px;
+  font-size: 1.7rem;
+  line-height: 1.18;
+  font-style: italic;
+}
+
+.footer-contact,
+.footer-social {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.footer-contact,
+.footer-social,
+.footer-bottom {
+  font-family: var(--sans);
+  font-size: 0.76rem;
+}
+
+.footer-contact a,
+.footer-social a {
+  text-underline-offset: 4px;
+}
+
+.footer-bottom {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 34px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.ink-fill { fill: var(--black); }
+.paper-fill { fill: var(--cream); }
+.white-fill { fill: var(--ivory); }
+.gold-fill { fill: var(--gold); }
+.lavender-fill { fill: var(--lavender); }
+
+.ink-stroke,
+.gold-stroke,
+.lavender-stroke,
+.paper-stroke {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 7;
+}
+
+.ink-stroke { stroke: var(--black); }
+.gold-stroke { stroke: var(--gold-dark); }
+.lavender-stroke { stroke: var(--lavender-deep); }
+.paper-stroke { stroke: var(--cream); }
+.fine { stroke-width: 3; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 1050px) {
+  .site-nav {
+    position: fixed;
+    inset: 0;
+    padding: 120px 28px 40px;
+    background: var(--ivory);
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    transform: translateY(-105%);
+    transition: transform 220ms ease;
+  }
+
+  .site-nav.open {
+    transform: translateY(0);
+  }
+
+  .site-nav a {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    text-transform: none;
+  }
+
+  .menu-toggle {
+    position: relative;
+    z-index: 2;
+    display: block;
+  }
+
+  .menu-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(4px) rotate(45deg);
+  }
+
+  .menu-toggle[aria-expanded="true"] span:nth-child(2) {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  .chapter-rail {
+    display: none;
+  }
+
+  .hero-stage,
+  .quote-layout,
+  .split-layout,
+  .founder-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-copy {
+    padding-bottom: 0;
+  }
+
+  .hero-illustration {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .quote-copy {
+    max-width: none;
+  }
+
+  .split-layout.reverse .storybook-illustration,
+  .split-layout.reverse .chapter-copy {
+    order: initial;
+  }
+
+  .founder-portrait {
+    position: relative;
+    top: auto;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 680px) {
+  .story-section {
+    min-height: auto;
+    padding: 100px 18px;
+  }
+
+  .hero-section {
+    padding-top: 120px;
+  }
+
+  h1 {
+    font-size: clamp(3.5rem, 16vw, 6.1rem);
+  }
+
+  h2 {
+    font-size: clamp(3.2rem, 14.5vw, 5.8rem);
+  }
+
+  h3 {
+    font-size: clamp(2.7rem, 12vw, 4.7rem);
+  }
+
+  .story-refrain::before {
+    width: 34px;
+  }
+
+  .button-row,
+  .button-row .button {
+    width: 100%;
+  }
+
+  .portrait-card,
+  .landscape-card,
+  .founder-portrait {
+    padding: 10px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .site-footer {
+    grid-template-columns: 1fr;
+    padding-inline: 20px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+  }
+
+  .stars {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+</style>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <header class="site-header" id="siteHeader">
+    <a class="wordmark" href="#prologue" aria-label="Next Thing I Knew, home">
+      <span class="wordmark-mark">N</span>
+      <span class="wordmark-copy">Next Thing I Knew</span>
+    </a>
+
+    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="siteNav">
+      <span></span><span></span>
+      <span class="sr-only">Open navigation</span>
+    </button>
+
+    <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
+      <a href="#prologue">Beginning</a>
+      <a href="#organizations">Organizations</a>
+      <a href="#sponsors">Sponsors</a>
+      <a href="#about">About Mo</a>
+      <a href="#contact">Conversation</a>
+    </nav>
+  </header>
+
+  <aside class="chapter-rail" aria-label="Page chapters">
+    <a href="#prologue" data-label="Prologue"><span>01</span></a>
+    <a href="#meaning" data-label="Meaning"><span>02</span></a>
+    <a href="#organizations" data-label="Organizations"><span>03</span></a>
+    <a href="#sponsors" data-label="Sponsors"><span>04</span></a>
+    <a href="#about" data-label="About"><span>05</span></a>
+    <a href="#contact" data-label="Finale"><span>06</span></a>
+  </aside>
+
+  <main>
+    <!-- HubSpot module: Storybook Hero -->
+    <section class="story-section hero-section" id="prologue" data-chapter="01">
+      <div class="paper-grain" aria-hidden="true"></div>
+
+      <div class="chapter-opening">
+        <p class="story-refrain">NEXT THING I KNEW…</p>
+        <h1>…our festival found the partner we had been hoping for.</h1>
+      </div>
+
+      <div class="hero-stage">
+        <div class="hero-copy">
+          <p class="lead">Every great story deserves an audience.<br>Every great arts organization deserves a patron.</p>
+          <p>We connect film festivals, theaters, documentary filmmakers, and cultural organizations with companies that believe in the power of culture.</p>
+          <p>Together, we create partnerships that feel less like placements and more like part of the story.</p>
+
+          <div class="button-row">
+            <a class="button" href="#organizations">I Need Sponsors</a>
+            <a class="button button-ghost" href="#sponsors">Become a Patron</a>
+          </div>
+        </div>
+
+        <figure class="storybook-illustration hero-illustration" data-parallax="0.08">
+          <svg viewBox="0 0 760 720" role="img" aria-label="A whimsical illustration of art and commerce discovering one another">
+            <path class="ink-fill" d="M107 607c36-174 132-262 287-262s249 88 280 262H107z"/>
+            <path class="paper-fill" d="M219 202c25-118 245-127 284 8 30 105-26 189-67 230-14 14-19 54-13 105H271c7-48 2-87-18-113-58-75-67-153-34-230z"/>
+            <path class="ink-fill" d="M205 229c12-128 114-176 209-151 91 25 129 101 94 190-17-54-53-97-104-115-68-25-137-1-199 76z"/>
+            <circle class="gold-fill" cx="284" cy="305" r="13"/>
+            <circle class="gold-fill" cx="421" cy="305" r="13"/>
+            <path class="ink-stroke" d="M299 373c34 18 70 18 105 0"/>
+            <path class="ink-stroke fine" d="M327 322c-5 31-6 57-2 77 14 6 28 6 41 0"/>
+            <path class="gold-stroke" d="M103 507c77-45 124-96 139-155M659 503c-76-43-122-94-139-154"/>
+            <circle class="lavender-fill" cx="93" cy="513" r="31"/>
+            <circle class="lavender-fill" cx="669" cy="509" r="31"/>
+            <path class="gold-stroke fine" d="M94 513c34 27 64 51 90 72M669 509c-34 29-64 53-90 73"/>
+            <path class="gold-stroke fine" d="M109 109l41 39M635 114l-41 39M144 70l5 58M594 74l-5 58"/>
+            <path class="lavender-stroke fine" d="M70 211c42-10 77-6 106 12M689 211c-41-10-77-6-107 12"/>
+          </svg>
+          <figcaption>Commerce meets art, somewhere between the curtain and the credits.</figcaption>
+        </figure>
+      </div>
+
+      <a class="continue-link" href="#meaning">Turn the page <span>↓</span></a>
+    </section>
+
+    <!-- HubSpot module: Storybook Quote -->
+    <section class="story-section quote-section" id="meaning" data-chapter="02">
+      <div class="chapter-number" aria-hidden="true">II</div>
+
+      <div class="chapter-opening narrow">
+        <p class="story-refrain">NEXT THING I KNEW…</p>
+        <h2>…our sponsorship actually meant something.</h2>
+      </div>
+
+      <div class="quote-layout">
+        <figure class="storybook-illustration portrait-card tilt-left" data-parallax="0.05">
+          <span class="tape tape-one" aria-hidden="true"></span>
+          <svg viewBox="0 0 520 620" role="img" aria-label="Art and commerce holding hands">
+            <rect x="28" y="28" width="464" height="564" rx="6" class="white-fill"/>
+            <circle class="lavender-fill" cx="181" cy="218" r="92"/>
+            <circle class="gold-fill" cx="342" cy="218" r="92"/>
+            <path class="ink-fill" d="M77 541c25-137 80-205 165-205 38 0 73 15 105 45 29-30 62-45 99-45 38 0 70 12 96 36v169H77z"/>
+            <path class="ink-stroke" d="M145 213c24-36 56-36 80 0M305 213c24-36 56-36 80 0"/>
+            <path class="ink-stroke fine" d="M224 306c35 48 69 48 103 0"/>
+            <path class="gold-stroke" d="M235 386c40-32 82-32 124 0"/>
+            <circle class="paper-fill" cx="297" cy="387" r="23"/>
+            <path class="ink-stroke fine" d="M105 112l64 45M414 112l-64 45M101 451l74-49M418 451l-75-49"/>
+          </svg>
+          <figcaption>A good partnership creates a third thing, something neither side could make alone.</figcaption>
+        </figure>
+
+        <div class="quote-copy">
+          <p class="dropcap">The best partnerships are not measured by how many logos appear on a poster.</p>
+          <p>They are measured by the conversations they start.</p>
+          <p>The customers they inspire.</p>
+          <p>The employees they engage.</p>
+          <p>The communities they strengthen.</p>
+          <p class="closing-line">And the stories they help tell long after the curtain falls.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HubSpot module: Arts Organizations Chapter -->
+    <section class="story-section split-chapter" id="organizations" data-chapter="03">
+      <div class="chapter-opening">
+        <p class="story-refrain">NEXT THING I KNEW…</p>
+        <h2>…we found partners who wanted to become part of the story.</h2>
+      </div>
+
+      <div class="split-layout">
+        <figure class="storybook-illustration landscape-card" data-parallax="0.06">
+          <svg viewBox="0 0 760 580" role="img" aria-label="An arts organization welcoming a new partner into its story">
+            <path class="lavender-fill" d="M45 470c63-168 164-252 305-252 142 0 243 84 306 252H45z"/>
+            <path class="paper-fill" d="M116 469c35-128 103-193 205-193 72 0 132 31 181 94 40-44 88-66 145-66 28 0 51 5 70 14v151H116z"/>
+            <circle class="gold-fill" cx="265" cy="197" r="79"/>
+            <circle class="ink-fill" cx="491" cy="230" r="69"/>
+            <path class="ink-stroke" d="M224 195c23-33 52-33 81 0"/>
+            <path class="paper-stroke" d="M456 229c20-27 45-27 70 0"/>
+            <path class="gold-stroke" d="M319 349c52-43 102-43 151 0"/>
+            <path class="ink-stroke fine" d="M109 104c50 16 90 40 119 73M650 107c-49 15-88 38-118 70"/>
+            <path class="gold-stroke fine" d="M72 420h614"/>
+          </svg>
+          <figcaption>A sponsor should feel invited into the room, not pasted onto the wall.</figcaption>
+        </figure>
+
+        <div class="chapter-copy">
+          <p class="section-label">FOR ARTS ORGANIZATIONS</p>
+          <h3>You are searching for more than funding.</h3>
+          <p>You are searching for partners who believe in your mission.</p>
+          <p>Partners who understand your audience, return year after year, and become part of your story.</p>
+          <p>We help you find companies that belong in the room, not simply on the poster.</p>
+          <a class="text-link" href="#contact">Find the right sponsors <span>→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- HubSpot module: Corporate Sponsors Chapter -->
+    <section class="story-section split-chapter lavender-wash" id="sponsors" data-chapter="04">
+      <div class="chapter-opening">
+        <p class="story-refrain">NEXT THING I KNEW…</p>
+        <h2>…our brand found a place where it genuinely belonged.</h2>
+      </div>
+
+      <div class="split-layout reverse">
+        <figure class="storybook-illustration landscape-card tilt-right" data-parallax="0.04">
+          <svg viewBox="0 0 760 580" role="img" aria-label="A corporate sponsor becoming a patron of culture">
+            <rect x="54" y="78" width="650" height="414" rx="207" class="paper-fill"/>
+            <path class="ink-fill" d="M97 491c51-146 137-219 259-219 89 0 160 38 216 115 36-33 80-50 132-50v154H97z"/>
+            <circle class="gold-fill" cx="334" cy="220" r="89"/>
+            <circle class="lavender-fill" cx="575" cy="294" r="68"/>
+            <path class="ink-stroke" d="M286 219c27-38 59-38 95 0"/>
+            <path class="ink-stroke" d="M539 293c18-25 39-25 64 0"/>
+            <path class="gold-stroke" d="M385 354c63-49 118-54 166-15"/>
+            <path class="ink-stroke fine" d="M246 389c79-37 156-37 230 0"/>
+            <path class="lavender-stroke fine" d="M93 152c61 0 110 14 146 41M668 151c-61 0-110 14-147 42"/>
+          </svg>
+          <figcaption>The strongest brand presence is the one people feel before they notice it.</figcaption>
+        </figure>
+
+        <div class="chapter-copy">
+          <p class="section-label">FOR CORPORATE SPONSORS</p>
+          <h3>You are searching for more than impressions.</h3>
+          <p>You are searching for authentic experiences, meaningful relationships, community impact, and a place where your brand genuinely belongs.</p>
+          <p>We help you support remarkable cultural work while building connections your customers and employees will remember.</p>
+          <a class="text-link" href="#contact">Become a patron <span>→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- HubSpot module: Founder Story -->
+    <section class="story-section founder-section" id="about" data-chapter="05">
+      <div class="chapter-opening narrow">
+        <p class="story-refrain">NEXT THING I KNEW…</p>
+        <h2>…I realized I was already living the job I wanted to create.</h2>
+      </div>
+
+      <div class="founder-layout">
+        <figure class="storybook-illustration founder-portrait" data-parallax="0.05">
+          <span class="moon" aria-hidden="true"></span>
+          <svg viewBox="0 0 620 760" role="img" aria-label="Portrait placeholder for Mo Nariani">
+            <path class="gold-fill" d="M82 696c29-178 105-267 228-267s199 89 228 267H82z"/>
+            <path class="paper-fill" d="M181 226c23-107 231-119 263 9 25 103-22 181-58 224-12 14-16 45-12 91H241c4-42-3-77-21-101-52-69-65-143-39-223z"/>
+            <path class="ink-fill" d="M170 245c15-135 112-186 205-161 90 24 131 98 105 188-20-49-53-84-100-104-70-30-141-4-210 77z"/>
+            <path class="ink-stroke" d="M227 319c25-17 51-17 78 0M339 319c23-15 47-15 71 0M267 413c34 19 69 19 104 0"/>
+            <path class="ink-stroke fine" d="M307 338c-5 32-6 59-2 80 15 6 30 6 45 0"/>
+            <path class="lavender-stroke fine" d="M91 153c49 30 85 69 108 118M533 150c-48 30-84 69-108 119"/>
+            <path class="gold-stroke fine" d="M116 107l34 51M500 109l-34 51"/>
+          </svg>
+          <figcaption>Mo Nariani, Founder and Chief Partnership Curator.</figcaption>
+        </figure>
+
+        <div class="founder-copy">
+          <p class="lead">Hi, I’m Mo Nariani.</p>
+          <p>Most evenings, you will find me in a theater, at a film festival, watching a documentary, attending a comedy show, or listening to live storytelling somewhere in Los Angeles.</p>
+          <p>Not because I have to. Because that is where I genuinely want to be.</p>
+          <p>My background is in sales. My education is in film. My favorite place is somewhere between the opening curtain and the closing credits.</p>
+
+          <blockquote>
+            <span>Eventually, a question occurred to me.</span>
+            What would happen if those two worlds spent more time together?
+          </blockquote>
+
+          <p>That is why I created Next Thing I Knew.</p>
+          <p>Not simply to sell sponsorships, but to introduce remarkable people to one another. To help businesses become patrons of culture. To help artists spend less time chasing funding and more time creating unforgettable experiences.</p>
+          <p>I do not believe great partnerships are sold.</p>
+          <p class="cadence">I believe they are discovered.<br>Curated.<br>And nurtured for years to come.</p>
+
+          <div class="signature">
+            <span>Mo Nariani</span>
+            <small>Founder &amp; Chief Partnership Curator</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HubSpot module: Final CTA -->
+    <section class="story-section finale-section" id="contact" data-chapter="06">
+      <div class="stars" aria-hidden="true">
+        <span>✦</span><span>✧</span><span>✦</span><span>✧</span><span>✦</span>
+      </div>
+
+      <div class="chapter-opening narrow centered">
+        <p class="story-refrain">NEXT THING I KNEW…</p>
+        <h2>…commerce met art.</h2>
+      </div>
+
+      <div class="finale-copy">
+        <p>Maybe you are producing the next unforgettable festival.</p>
+        <p>Maybe you are searching for a partnership your customers, employees, and community will actually remember.</p>
+        <p>Either way, every meaningful partnership begins with a conversation.</p>
+        <p class="lead">I would love to hear your story.</p>
+      </div>
+
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <label>
+            Your name
+            <input type="text" name="name" autocomplete="name" required>
+          </label>
+          <label>
+            Email address
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+        </div>
+
+        <label>
+          I am here because…
+          <select name="interest" required>
+            <option value="">Choose one</option>
+            <option>I need sponsors</option>
+            <option>I want to become a patron</option>
+            <option>I want to explore a partnership</option>
+          </select>
+        </label>
+
+        <label>
+          Tell me the beginning of your story
+          <textarea name="message" rows="5"></textarea>
+        </label>
+
+        <button class="button button-gold" type="submit">Let’s Write the Next Chapter Together</button>
+        <p class="form-note" id="formNote" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <a class="wordmark footer-wordmark" href="#prologue">
+        <span class="wordmark-mark">N</span>
+        <span class="wordmark-copy">Next Thing I Knew</span>
+      </a>
+      <p class="footer-tagline">Commerce met art…<br>and they lived happily ever after.</p>
+    </div>
+
+    <div class="footer-contact">
+      <strong>Mo Nariani</strong>
+      <span>Founder &amp; Chief Partnership Curator</span>
+      <a href="mailto:mo@nextthingiknew.com">mo@nextthingiknew.com</a>
+      <span>Los Angeles, California</span>
+    </div>
+
+    <div class="footer-social">
+      <a href="#">Instagram @monariani</a>
+      <a href="#">LinkedIn @monariani</a>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Next Thing I Knew</span>
+      <span>The end, for now.</span>
+    </div>
+  </footer>
+
+  <script>
+const header = document.getElementById("siteHeader");
+const progressBar = document.getElementById("progressBar");
+const menuToggle = document.getElementById("menuToggle");
+const siteNav = document.getElementById("siteNav");
+const sections = [...document.querySelectorAll(".story-section")];
+const railLinks = [...document.querySelectorAll(".chapter-rail a")];
+const navLinks = [...document.querySelectorAll(".site-nav a")];
+const contactForm = document.getElementById("contactForm");
+const formNote = document.getElementById("formNote");
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function updateScrollUI() {
+  const scrollTop = window.scrollY;
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = scrollable > 0 ? (scrollTop / scrollable) * 100 : 0;
+
+  progressBar.style.width = `${progress}%`;
+  header.classList.toggle("scrolled", scrollTop > 24);
+
+  if (!prefersReducedMotion) {
+    document.querySelectorAll("[data-parallax]").forEach((element) => {
+      const speed = Number(element.dataset.parallax || 0);
+      const rect = element.getBoundingClientRect();
+      const viewportOffset = rect.top + rect.height / 2 - window.innerHeight / 2;
+      element.style.translate = `0 ${viewportOffset * speed}px`;
+    });
+  }
+}
+
+function setActiveChapter(id) {
+  railLinks.forEach((link) => {
+    link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+  });
+
+  navLinks.forEach((link) => {
+    link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+  });
+}
+
+function closeMenu() {
+  siteNav.classList.remove("open");
+  menuToggle.setAttribute("aria-expanded", "false");
+  document.body.classList.remove("menu-open");
+}
+
+menuToggle.addEventListener("click", () => {
+  const isOpen = siteNav.classList.toggle("open");
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+  document.body.classList.toggle("menu-open", isOpen);
+});
+
+siteNav.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", closeMenu);
+});
+
+const chapterObserver = new IntersectionObserver(
+  (entries) => {
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (visible) {
+      setActiveChapter(visible.target.id);
+    }
+  },
+  {
+    threshold: [0.2, 0.45, 0.7],
+    rootMargin: "-15% 0px -55% 0px"
+  }
+);
+
+sections.forEach((section) => chapterObserver.observe(section));
+
+const revealTargets = document.querySelectorAll(
+  ".chapter-opening, .hero-copy, .storybook-illustration, .quote-copy, .chapter-copy, .founder-copy, .finale-copy, .contact-form"
+);
+
+revealTargets.forEach((target) => target.classList.add("reveal"));
+
+if ("IntersectionObserver" in window && !prefersReducedMotion) {
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  revealTargets.forEach((target) => revealObserver.observe(target));
+} else {
+  revealTargets.forEach((target) => target.classList.add("visible"));
+}
+
+let ticking = false;
+window.addEventListener(
+  "scroll",
+  () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateScrollUI();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  },
+  { passive: true }
+);
+
+window.addEventListener("resize", updateScrollUI);
+updateScrollUI();
+setActiveChapter("prologue");
+
+contactForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const data = new FormData(contactForm);
+  const name = String(data.get("name") || "").trim();
+  formNote.textContent = `Thank you${name ? `, ${name}` : ""}. This prototype form is ready to connect to a HubSpot form.`;
+  contactForm.reset();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+</script>
+</body>
+</html>
