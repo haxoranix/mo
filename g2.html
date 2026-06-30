@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Hub | HIT Fitness</title>
+    <style>
+        /* --- CSS VARIABLES (Matched to Mockup) --- */
+        :root {
+            --bg-color: #1a1a1a;
+            --surface-color: #262626;
+            --accent-color: #8cc63f; /* Lime Green */
+            --accent-hover: #7ab332;
+            --text-light: #ffffff;
+            --text-muted: #b3b3b3;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            font-family: var(--font-main);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-light);
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            background-color: #121212;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #000;
+            padding: 12px 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* --- HERO SECTION --- */
+        .blog-hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(rgba(26,26,26,0.9), rgba(26,26,26,0.9)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070') center/cover;
+        }
+
+        .blog-hero h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .blog-hero h1 span {
+            color: var(--accent-color);
+        }
+
+        .blog-hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- FILTER BAR --- */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 40px 20px 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: transparent;
+            color: var(--text-light);
+            border: 1px solid var(--text-muted);
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* --- BLOG GRID --- */
+        .blog-container {
+            max-width: 1200px;
+            margin: 40px auto 80px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .blog-card {
+            background-color: var(--surface-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-color: #444;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-meta {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .card-excerpt {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .read-more {
+            color: var(--text-light);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #121212;
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+        }
+
+        footer img {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; /* Add mobile menu logic here */ }
+            header { justify-content: center; flex-direction: column; gap: 20px; }
+            .blog-hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="#">
+                <img src="https://hitfitnessflorida.com/wp-content/uploads/2025/10/Logo_horizonal-without-tagline.webp" alt="HIT Fitness Logo">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Training</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <a href="#" class="btn-primary">Join Now</a>
+    </header>
+
+    <section class="blog-hero">
+        <h1>Fitness <span>Insights</span></h1>
+        <p>Expert tips, strength training science, and success stories to help you achieve maximum results.</p>
+    </section>
+
+    <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">All Articles</button>
+        <button class="filter-btn" data-filter="training">Training</button>
+        <button class="filter-btn" data-filter="nutrition">Nutrition</button>
+        <button class="filter-btn" data-filter="mindset">Mindset</button>
+    </div>
+
+    <main class="blog-container">
+        
+        <article class="blog-card" data-category="training">
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=600" alt="Training Image" class="card-img">
+            <div class="card-content">
+                <div class="card-meta">Training • Oct 12, 2025</div>
+                <h2 class="card-title">The Science of High-Intensity Strength Training</h2>
+                <p class="card-excerpt">Discover how minimal time under tension can yield maximum muscle growth and fat loss.</p>
+                <a href="#" class="read-more">Read Article &rarr;</a>
+            </div>
+        </article>
+
+        <article class="blog-card" data-category="nutrition">
+            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=600" alt="Nutrition Image" class="card-img">
+            <div class="card-content">
+                <div class="card-meta">Nutrition • Oct 05, 2025</div>
+                <h2 class="card-title">Fueling Your Body for Peak Performance</h2>
+                <p class="card-excerpt">A breakdown of the optimal macro ratios needed to recover faster and build strength safely.</p>
+                <a href="#" class="read-more">Read Article &rarr;</a>
+            </div>
+        </article>
+
+        <article class="blog-card" data-category="mindset">
+            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600" alt="Mindset Image" class="card-img">
+            <div class="card-content">
+                <div class="card-meta">Mindset • Sep 28, 2025</div>
+                <h2 class="card-title">Breaking Through Plateaus: A Mental Game</h2>
+                <p class="card-excerpt">When the weights feel heavy, your mind gives up first. Learn how to push past mental barriers.</p>
+                <a href="#" class="read-more">Read Article &rarr;</a>
+            </div>
+        </article>
+
+        <article class="blog-card" data-category="training">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600" alt="Training Image" class="card-img">
+            <div class="card-content">
+                <div class="card-meta">Training • Sep 20, 2025</div>
+                <h2 class="card-title">Form Over Ego: Perfecting the Deadlift</h2>
+                <p class="card-excerpt">Step-by-step mechanics to ensure you are lifting heavy without risking injury.</p>
+                <a href="#" class="read-more">Read Article &rarr;</a>
+            </div>
+        </article>
+
+    </main>
+
+    <footer>
+        <img src="https://hitfitnessflorida.com/wp-content/uploads/2025/10/Logo_horizonal-without-tagline.webp" alt="HIT Fitness Logo">
+        <p>&copy; 2025 HIT Fitness. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const blogCards = document.querySelectorAll('.blog-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active button state
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    // Filter logic
+                    const filterValue = btn.getAttribute('data-filter');
+                    
+                    blogCards.forEach(card => {
+                        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                            card.style.display = 'block';
+                            // Optional: Add a subtle fade-in animation here if desired
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
